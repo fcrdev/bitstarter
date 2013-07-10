@@ -41,7 +41,7 @@ var assertFileExists = function(infile) {
 };
 
 var responseUrlGet = function(result, response) {
-    console.log('Called responseUrlGet');
+    //console.log('Called responseUrlGet');
     if ( result instanceof Error) {
 	console.error('Error: ' + util.format(response.message));
 	process.exit(1);
@@ -52,7 +52,7 @@ var responseUrlGet = function(result, response) {
 };
 
 var processUrl = function(url) {
-    console.log('Called processUrl with url = %s', url);
+    //console.log('Called processUrl with url = %s', url);
     rest.get(url).on('complete', responseUrlGet);
 };
 
@@ -70,8 +70,10 @@ var loadChecks = function(checksfile) {
 
 var checkHtmlFile = function(htmlsource, checksfile) {
     if (program.file) {
+        //console.log("Checking file content");
 	$ = cheerioHtmlFile(htmlsource);
     } else {
+        //console.log("Checking url content htmlsource = %s", htmlsource); 
 	$ = cheerioUrl(htmlsource);
     }
     var checks = loadChecks(checksfile).sort();
@@ -97,12 +99,12 @@ if (require.main == module) {
 	.parse(process.argv);
 
     if (program.file) {
-	console.log("file = %s", program.file);
+	//console.log("file = %s", program.file);
 	var checkJson = checkHtmlFile(program.file, program.checks);
 	var outJson = JSON.stringify(checkJson, null, 4);
 	console.log(outJson);
     } else {
-	console.log("url = %s", program.url);
+	//console.log("url = %s", program.url);
 	processUrl(program.url);
     }
 } else {
